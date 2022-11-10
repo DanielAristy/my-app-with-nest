@@ -44,6 +44,18 @@ export class UserService {
     return newUser;
   }
 
+  updateUser(uuid: string, userDto: UserDto){
+    let updateUser = this.findById(uuid);
+    this.users = this.users.map(user => {
+      if (uuid.includes(user?.uuid ?? '')) {
+        updateUser = {...updateUser, ...userDto, uuid };
+        return updateUser;
+      }
+      return user;
+    })
+    return updateUser;
+  }
+
   deleteUser(id: string): boolean { 
     const user = this.findById(id);
     let valid = false;

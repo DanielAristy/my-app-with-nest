@@ -1,4 +1,4 @@
-import { Controller, Param, Get, Post, Body, ValidationPipe, Delete, Put} from '@nestjs/common';
+import { Controller, Param, Get, Post, Body, ValidationPipe, Delete, Put, Patch} from '@nestjs/common';
 import { UserDto } from '../dtos/user.dto/user.dto';
 import { UserService } from '../services/user.service';
 
@@ -44,6 +44,20 @@ export class UserController {
   ) {
     return this.userService.updateUser(uuid, user)
   }
+
+  @Patch(':uuid')
+  modifyUser(@Param('uuid') uuid: string,
+  @Body(
+    new ValidationPipe({
+      transform: true,
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  )
+  user: UserDto,) {
+    return this.userService.modifyUser(uuid, user);
+  }
+
 
   @Delete(':uuid')
   deleteUser(@Param('uuid') uuid: string) {

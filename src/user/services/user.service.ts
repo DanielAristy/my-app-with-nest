@@ -57,6 +57,10 @@ export class UserService {
     return updateUser;
   }
 
+  modifyUser(uuid: string, userDto: UserDto){
+    return this.updateUser(uuid, userDto)
+  }
+
   deleteUser(id: string): boolean { 
     const user = this.findById(id);
     let valid = false;

@@ -1,4 +1,5 @@
 import { Injectable,NotFoundException } from '@nestjs/common';
+import { urlToHttpOptions } from 'url';
 import { v4 as uuid } from 'uuid';
 import { UserDto } from '../dtos/user.dto/user.dto';
 import { User } from '../interfaces/user/user.interface';
@@ -60,9 +61,9 @@ export class UserService {
     const user = this.findById(id);
     let valid = false;
     if (user) {
-      this.users.find((userData, i) => {
-        if (user.uuid === userData?.uuid) {
-          delete this.users[i]
+      this.users.forEach((userData, i) => {
+        if (user?.uuid === userData?.uuid) {
+          this.users.splice(i, 1)
           valid = true;
         }
       })

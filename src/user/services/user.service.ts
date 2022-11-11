@@ -1,5 +1,4 @@
 import { Injectable,NotFoundException } from '@nestjs/common';
-import { urlToHttpOptions } from 'url';
 import { v4 as uuid } from 'uuid';
 import { UserDto } from '../dtos/user.dto/user.dto';
 import { User } from '../interfaces/user/user.interface';
@@ -46,15 +45,12 @@ export class UserService {
   }
 
   updateUser(uuid: string, userDto: UserDto){
-    let updateUser = this.findById(uuid);
-    this.users = this.users.map(user => {
-      if (uuid.includes(user?.uuid ?? '')) {
-        updateUser = {...updateUser, ...userDto, uuid };
-        return updateUser;
-      }
-      return user;
-    })
-    return updateUser;
+    const updateUser = this.findById(uuid);
+    if (updateUser) {
+      const index = this.users.findIndex((userData) => uuid.includes(userData.uuid ?? ''));
+      this.users[index] = {uuid, ...updateUser, ...userDto};
+      return this.users[index];
+    }
   }
 
   modifyUser(uuid: string, userDto: UserDto){

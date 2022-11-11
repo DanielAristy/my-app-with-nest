@@ -1,4 +1,5 @@
-import { Controller, Param, Get, Post, Body, ValidationPipe, Delete, Put, Patch} from '@nestjs/common';
+import { Controller, Param, Get, Post, Body, ValidationPipe, Delete, Put, Patch, UseGuards} from '@nestjs/common';
+import { AuthGuard } from '../auth.guard';
 import { UserDto } from '../dtos/user.dto/user.dto';
 import { UserService } from '../services/user.service';
 
@@ -17,6 +18,7 @@ export class UserController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   createUser(
     @Body(
       new ValidationPipe({
@@ -31,6 +33,7 @@ export class UserController {
   }
 
   @Put(':uuid')
+  @UseGuards(AuthGuard)
   updateUser(
     @Param('uuid') uuid: string,
     @Body(
@@ -46,6 +49,7 @@ export class UserController {
   }
 
   @Patch(':uuid')
+  @UseGuards(AuthGuard)
   modifyUser(@Param('uuid') uuid: string,
   @Body(
     new ValidationPipe({
@@ -60,6 +64,7 @@ export class UserController {
 
 
   @Delete(':uuid')
+  @UseGuards(AuthGuard)
   deleteUser(@Param('uuid') uuid: string) {
     return this.userService.deleteUser(uuid)
   }

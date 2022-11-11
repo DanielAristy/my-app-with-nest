@@ -30,7 +30,7 @@ export class UserService {
   findById(uuid: string) {
     const user = this.users.find(user => user?.uuid === uuid)
     if (!user) {
-     throw new NotFoundException(`No existe usuario con uuid: ${uuid.toString()}`)
+     throw new NotFoundException(`No existe usuario con uuid: ${uuid}`)
     }
     return user
   }
@@ -48,7 +48,7 @@ export class UserService {
     const updateUser = this.findById(uuid);
     if (updateUser) {
       const index = this.users.findIndex((userData) => uuid.includes(userData.uuid ?? ''));
-      this.users[index] = {uuid, ...updateUser, ...userDto};
+      this.users[index] = {...updateUser, ...userDto};
       return this.users[index];
     }
   }
@@ -58,17 +58,11 @@ export class UserService {
   }
 
   deleteUser(id: string): boolean { 
-    const user = this.findById(id);
-    let valid = false;
-    if (user) {
-      this.users.forEach((userData, i) => {
-        if (user?.uuid === userData?.uuid) {
-          this.users.splice(i, 1)
-          valid = true;
-        }
-      })
-    } else valid = false;
-
-    return valid;
+    const index = this.users.findIndex((user) => id.includes(user.uuid ?? ''))
+    if (index == -1) {
+      throw new NotFoundException(`No existe usuario con uuid: ${id}`)
+    }
+    this.users.splice(index, 1)
+    return true;
   }
 }

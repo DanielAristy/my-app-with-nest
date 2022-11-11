@@ -8,17 +8,14 @@ export class UserService {
   private users: User[] = [
     {uuid: uuid(),
       name: 'Jorge',
-      surname: 'Gomez',
       email: 'jorge@gmail.com'   
     },
     {uuid: uuid(),
       name: 'Jario',
-      surname: 'Ramirez',
       email: 'jairo@gmail.com'   
     },
     {uuid: uuid(),
       name: 'Jose',
-      surname: 'Lopez',
       email: 'jose@gmail.com'   
     },
   ]
@@ -37,7 +34,6 @@ export class UserService {
 
   createUser(user: UserDto){
     const newUser ={
-      uuid: uuid(),
       ...user
     }
     this.users.push(newUser);

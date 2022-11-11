@@ -5,13 +5,13 @@ import { v4 as uuid } from 'uuid';
 export class UserDto implements User {
     @IsUUID()
     @IsOptional()
-    uuid?: string;
+    uuid: string;
     @IsString()
     @IsNotEmpty()
     name: string;
     @IsString()
-    @IsNotEmpty()
-    surname: string;
+    @IsOptional()
+    surname?: string;
     @IsString()
     @IsNotEmpty()
     email: string;
